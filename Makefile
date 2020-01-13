@@ -1,5 +1,5 @@
-SOURCES = parser_helpfile.c entry.c
-OBJECTS = parser_helpfile.o entry.o
+SOURCES = parser_helpfile.c signals.c entry.c utilities.c execution.c
+OBJECTS = parser_helpfile.o signals.o entry.o utilities.o execution.o
 CFLAGS = -I. -Wall -ggdb3 -pedantic
 
 mysh: parser.tab.h lex.yy.c parser.l parser.y $(OBJECTS)
