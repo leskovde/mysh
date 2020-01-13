@@ -7,6 +7,9 @@
 
 #include "parser_helpfile.h"
 
+/**
+ * Allocates a new command object.
+ */
 command_object*
 command_constructor()
 {
@@ -21,7 +24,13 @@ command_constructor()
 
         return (cmd);
 }
-
+/**
+ * Adds an argument to the commands list of arguments.
+ *
+ * @param cmd Command, to which an argument will be added.
+ *
+ * @param arg Name of the argument to be added.
+ */
 void
 add_cmd_arg(command_object* cmd, char* arg)
 {
@@ -44,7 +53,12 @@ add_cmd_arg(command_object* cmd, char* arg)
         cmd->arg_count++;
 }
 
-static void
+/**
+ * Deallocates a command object.
+ *
+ * @param command Command object to be deallocated.
+ */
+void
 free_command(command_object* command)
 {
 #ifdef DEBUG
@@ -65,6 +79,9 @@ free_command(command_object* command)
         free(command);
 }
 
+/**
+ * Allocates a new sequence object.
+ */
 command_sequence_object*
 command_sequence_constructor()
 {
@@ -78,6 +95,13 @@ command_sequence_constructor()
         return (seq);
 }
 
+/**
+ * Adds a command to a command sequence.
+ *
+ * @param sequence Command sequence to be modified.
+ *
+ * @command Command object to be inserted into the sequence.
+ */
 void
 command_sequence_push_front(command_sequence_object* sequence, command_object* command)
 {
@@ -91,6 +115,11 @@ command_sequence_push_front(command_sequence_object* sequence, command_object* c
         STAILQ_INSERT_HEAD(&sequence->commands, entry, entries);
 }
 
+/**
+ * Deallocates a command sequence.
+ *
+ * @param sequence Command sequence to be deallocated.
+ */
 void
 free_command_sequence(command_sequence_object* sequence)
 {
