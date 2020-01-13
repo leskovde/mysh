@@ -1,5 +1,6 @@
 %{
         #include <stdio.h>
+        #include "structs.h"
         #include "entry.h"
         #include "parser_helpfile.h"
 
