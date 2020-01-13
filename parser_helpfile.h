@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include <sys/queue.h>
-#include <err.h>
 
 #define nullptr NULL
 
@@ -30,6 +28,9 @@ struct command_entry
         STAILQ_ENTRY(command_entry) entries;
 };
 
+void
+add_cmd_arg(command_object*, char*);
+
 typedef struct sequence command_sequence_object;
 struct sequence
 {
@@ -46,4 +47,4 @@ void
 command_sequence_push_front(command_sequence_object *, command_object *);
 
 void
-free_sequence(command_sequence_object *);
+free_command_sequence(command_sequence_object *);
