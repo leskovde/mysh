@@ -4,7 +4,7 @@ LOCAL_CONFIG=test-config.local
 REQ_EXECUTABLES="STEF MYSH"
 
 # See this one on what variables to set.
-source ~/nswi015/mysh/tests/test-config
+source ./test-config
 
 # You can overwrite variables set in ./test-config here so that you don't need
 # to fix them every time you sync with the STEF repo.
