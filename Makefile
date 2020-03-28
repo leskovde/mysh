@@ -15,4 +15,4 @@ clean:
 	rm lex.yy.c parser.tab.c parser.tab.h mysh $(OBJECTS)
 
 test:
-	cd tests && ./run-tests.sh 001
+	cd tests && ./run-tests.sh
