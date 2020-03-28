@@ -7,8 +7,8 @@
 # However, you should first set it to your system /bin/bash to make sure you can
 # properly run and pass the tests.
 #export MYSH="/bin/true"
-export MYSH="~/nswi015/mysh/mysh"
+export MYSH="../mysh"
 
 # Get STEF from https://github.com/devnull-cz/stef, then set STEF to path to
 # stef.sh.
-export STEF="~/nswi015/mysh/tests/stef.sh"
+export STEF="./stef.sh"
