@@ -12,8 +12,6 @@
 #include "utilities.h"
 #include "lex.yy.h"
 
-//#define DEBUG
-
 extern FILE* yyin;
 extern int yyparse();
 extern void yy_delete_buffer(YY_BUFFER_STATE b);

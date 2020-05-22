@@ -18,6 +18,10 @@
         extern int yyerror(const char * format);
 %}
 
+%{
+	char delimiters[] = " \t\r\n\v\f";
+%}
+
 %union{
         char * str;
         command_object * command;
@@ -32,8 +36,9 @@
 %type<sequence> seq
 %type<pipeline> pipeline
 
-%precedence TOKEN
 %precedence REDIRECTION_LEFT REDIRECTION_RIGHT APPEND
+
+%right TOKEN
 
 %error-verbose
 
@@ -62,20 +67,34 @@
 
         command
 	: literal
-	| REDIRECTION_LEFT TOKEN command { $$ = $3; strtok($2, " ");
+	| REDIRECTION_LEFT TOKEN command { $$ = $3; strtok($2, delimiters);
 		set_cmd_source($$, $2); }
-	| REDIRECTION_RIGHT TOKEN command { $$ = $3; strtok($2, " ");
+	| REDIRECTION_RIGHT TOKEN command { $$ = $3; strtok($2, " \n\t");
 		set_cmd_target($$, $2, 0); }
-	| APPEND TOKEN command { $$ = $3; strtok($2, " ");
+	| APPEND TOKEN command { $$ = $3; strtok($2, " \n\t");
 		set_cmd_target($$, $2, 1); }
-	| command REDIRECTION_LEFT TOKEN { set_cmd_source($1, $3); }
-        | command REDIRECTION_RIGHT TOKEN { set_cmd_target($1, $3, 0); }
-        | command APPEND TOKEN { set_cmd_target($1, $3, 1); }
 	;
 
         literal
         : TOKEN { $$ = command_constructor(); add_cmd_arg($$, $1);}
         | literal TOKEN { add_cmd_arg($$, $2); }
+	| literal REDIRECTION_LEFT TOKEN { strtok($3, " \n\t");
+		set_cmd_source($$, $3); }
+
+        | literal REDIRECTION_RIGHT TOKEN { strtok($3, " \n\t");
+		set_cmd_target($$, $3, 0); }
+
+        | literal APPEND TOKEN { strtok($3, " \n\t");
+		set_cmd_target($$, $3, 1); }
+
+	| literal REDIRECTION_LEFT TOKEN TOKEN { strtok($3, " \n\t");
+                set_cmd_source($$, $3); add_cmd_arg($$, $4); }
+
+        | literal REDIRECTION_RIGHT TOKEN TOKEN { strtok($3, " \n\t");
+                set_cmd_target($$, $3, 0); add_cmd_arg($$, $4); }
+
+        | literal APPEND TOKEN TOKEN { strtok($3, " \n\t");
+                set_cmd_target($$, $3, 1); add_cmd_arg($$, $4); }	
 	;
 
 %%
