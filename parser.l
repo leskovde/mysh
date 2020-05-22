@@ -3,13 +3,15 @@
 %{
         #include "parser_helpfile.h"
         #include "parser.tab.h"
-        #include "entry.h"
 %}
 
 tokens          [-$)(/\_.a-zA-Z0-9]+
-redirections    [<>|]
+
 %%
-{redirections}  { return (REDIRECTION); }
+\<  		{ return (REDIRECTION_LEFT); }
+>		{ return (REDIRECTION_RIGHT); }
+>>		{ return (APPEND); }
+\|		{ return (PIPE); }
 {tokens}        { yylval.str = yytext; return (TOKEN); }
 ;               { return (SEMICOLON); }
 \n              { return (EOL); }
@@ -17,12 +19,3 @@ redirections    [<>|]
 .               { }
 %%
 
-int
-main (int argc, char * argv[])
-{
-        launcher(argc, argv);
-
-        // unreachable
-
-        return (0);
-}

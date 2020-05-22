@@ -13,7 +13,7 @@ extern int yylex_destroy();
 
 const int prompt_limit = 3 * PATH_MAX;
 
-SLIST_HEAD(slist_head, name_command_tuple) custom_command_list =
+SLIST_HEAD(slist_head, command_wrapper) custom_command_list =
                 SLIST_HEAD_INITIALIZER(custom_command_list);
 
 /**
@@ -22,16 +22,21 @@ SLIST_HEAD(slist_head, name_command_tuple) custom_command_list =
 void
 initialize()
 {
-        struct name_command_tuple* cd = (struct name_command_tuple*)(
-                        malloc(sizeof(struct name_command_tuple)));
+        name_command_tuple* cd = malloc(sizeof(name_command_tuple));
+	if (cd == nullptr)
+	{
+		err(EX_OSERR, nullptr);
+	}
 
         cd->name = "cd";
         cd->command = custom_cd;
         SLIST_INSERT_HEAD(&custom_command_list, cd, entries);
 
-        struct name_command_tuple* exit = (struct name_command_tuple*)(
-                        malloc(sizeof(struct name_command_tuple))
-        );
+        name_command_tuple* exit = malloc(sizeof(name_command_tuple));
+	if (exit == nullptr)
+	{
+		err(EX_OSERR, nullptr);
+	}
 
         exit->name = "exit";
         exit->command = custom_exit;
@@ -76,7 +81,7 @@ free_resources()
         free(env_.actual_path);
         free(env_.previous_path);
 
-        struct name_command_tuple* entry;
+        name_command_tuple* entry;
 
         while (!SLIST_EMPTY(&custom_command_list))
         {
@@ -103,12 +108,11 @@ get_arguments(command_object* cmd)
 #endif
         char** argv;
         int i = 0;
-        struct list_node* arg;
+        literal_entry* arg;
 #ifdef DEBUG
         printf("Attempting malloc in get_arguments\n");
 #endif
-        argv = malloc(cmd->arg_count + 1);
-
+        argv = malloc(sizeof(char*) * (cmd->arg_count + 1));
         if (argv == nullptr)
         {
                 errno = ENOMEM;
@@ -136,8 +140,12 @@ get_env_path()
         printf("Attempting malloc in get_env_path\n");
 #endif
         char* buffer = malloc(PATH_MAX);
+	if (buffer == nullptr)
+	{
+		err(EX_OSERR, nullptr);
+	}
 
-        if (getcwd(buffer, PATH_MAX) == NULL)
+        if (getcwd(buffer, PATH_MAX) == nullptr)
         {
                 err(EX_SOFTWARE, "PATH_MAX limit reached");
         }
@@ -165,6 +173,10 @@ custom_cd(int argc, char* argv[])
         if (argc == 1)
         {
                 target_path = getenv("HOME");
+		if (target_path == nullptr)
+		{
+			err(EX_OSERR, nullptr);
+		}
         }
         else if (argc == 2 && !(strcmp(argv[1], "-")))
         {
@@ -220,7 +232,7 @@ find_in_custom_list(char* name)
 #ifdef DEBUG
         printf("Calling find on custom commands list\n");
 #endif
-        struct name_command_tuple* entry;
+        name_command_tuple* entry;
         SLIST_FOREACH(entry, &custom_command_list, entries)
         {
                 if (!strcmp(entry->name, name))
@@ -247,7 +259,7 @@ find_and_execute(int argc, char* argv[])
 #ifdef DEBUG
         printf("Calling execute on %s\n", argv[0]);
 #endif
-        struct name_command_tuple* entry;
+name_command_tuple* entry;
         SLIST_FOREACH(entry, &custom_command_list, entries)
         {
                 if (!strcmp(entry->name, argv[0]))

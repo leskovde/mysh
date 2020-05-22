@@ -11,9 +11,10 @@ struct env
 };
 struct env env_;
 
-struct name_command_tuple
+typedef struct command_wrapper name_command_tuple;
+struct command_wrapper
 {
         char* name;
         int (*command)(int argc, char* argv[]);
-        SLIST_ENTRY(name_command_tuple) entries;
+        SLIST_ENTRY(command_wrapper) entries;
 };

@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <signal.h>
+#include <assert.h>
 #include <err.h>
 #include <errno.h>
 #include <sysexits.h>
@@ -32,6 +33,7 @@ await_action()
         printf("Attempting malloc in await_action (%d bytes)\n", buf_size);
 #endif
         char* in = malloc(buf_size);
+	assert(in != nullptr);
 
         cmd_sig.sa_handler = interrupt_cmd;
         cmd_sig.sa_flags = SA_RESTART;
@@ -39,22 +41,22 @@ await_action()
         prompt_sig.sa_handler = interrupt_prompt;
         prompt_sig.sa_flags = SA_RESTART;
 
-        int t = sigaction(SIGINT, &prompt_sig, NULL);
+        int t = sigaction(SIGINT, &prompt_sig, nullptr);
         if (t == -1)
         {
                 free(in);
-                err(EX_OSERR, NULL);
+                err(EX_OSERR, nullptr);
         }
 
         sprintf(in, "%s:%s ", env_.prompt_text, env_.actual_path);
 
-        while ((command = readline(in)) != NULL)
+        while ((command = readline(in)) != nullptr)
         {
-                t = sigaction(SIGINT, &cmd_sig, NULL);
+                t = sigaction(SIGINT, &cmd_sig, nullptr);
                 if (t == -1)
                 {
                         free(in);
-                        err(EX_OSERR, NULL);
+                        err(EX_OSERR, nullptr);
                 }
 
                 if (strcmp(command, ""))
@@ -65,11 +67,11 @@ await_action()
                 (void)execute(command);
                 free(command);
 
-                t = sigaction(SIGINT, &prompt_sig, NULL);
+                t = sigaction(SIGINT, &prompt_sig, nullptr);
                 if (t == -1)
                 {
                         free(in);
-                        err(EX_OSERR, NULL);
+                        err(EX_OSERR, nullptr);
                 }
 #ifdef DEBUG
                 printf("Printing prompt\n");
@@ -95,7 +97,7 @@ await_action()
 int
 launcher(int argc, char* argv[])
 {
-        initialize();
+	initialize();
         int opt;
 
         while ((opt = getopt(argc, argv, "c:")) != -1)
