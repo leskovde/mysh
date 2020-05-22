@@ -52,6 +52,7 @@
 	pipeline
 	: command { $$ = command_pipeline_constructor(); 
 		command_pipeline_push_front($$, $1); }
+
 	| command PIPE pipeline { $$ = $3;
 		command_pipeline_push_front($$, $1); }
 	;
@@ -60,8 +61,10 @@
         seq
         : pipeline { $$ = pipeline_sequence_constructor();
                 pipeline_sequence_push_front($$, $1); }
+
         | pipeline SEMICOLON { $$ = pipeline_sequence_constructor();
                 pipeline_sequence_push_front($$, $1); }
+
         | pipeline SEMICOLON seq  { $$ = $3; pipeline_sequence_push_front($$, $1);}
         ;
 
@@ -69,31 +72,33 @@
 	: literal
 	| REDIRECTION_LEFT TOKEN command { $$ = $3; strtok($2, delimiters);
 		set_cmd_source($$, $2); }
-	| REDIRECTION_RIGHT TOKEN command { $$ = $3; strtok($2, " \n\t");
+
+	| REDIRECTION_RIGHT TOKEN command { $$ = $3; strtok($2, delimiters);
 		set_cmd_target($$, $2, 0); }
-	| APPEND TOKEN command { $$ = $3; strtok($2, " \n\t");
+
+	| APPEND TOKEN command { $$ = $3; strtok($2, delimiters);
 		set_cmd_target($$, $2, 1); }
 	;
 
         literal
         : TOKEN { $$ = command_constructor(); add_cmd_arg($$, $1);}
         | literal TOKEN { add_cmd_arg($$, $2); }
-	| literal REDIRECTION_LEFT TOKEN { strtok($3, " \n\t");
+	| literal REDIRECTION_LEFT TOKEN { strtok($3, delimiters);
 		set_cmd_source($$, $3); }
 
-        | literal REDIRECTION_RIGHT TOKEN { strtok($3, " \n\t");
+        | literal REDIRECTION_RIGHT TOKEN { strtok($3, delimiters);
 		set_cmd_target($$, $3, 0); }
 
-        | literal APPEND TOKEN { strtok($3, " \n\t");
+        | literal APPEND TOKEN { strtok($3, delimiters);
 		set_cmd_target($$, $3, 1); }
 
-	| literal REDIRECTION_LEFT TOKEN TOKEN { strtok($3, " \n\t");
+	| literal REDIRECTION_LEFT TOKEN TOKEN { strtok($3, delimiters);
                 set_cmd_source($$, $3); add_cmd_arg($$, $4); }
 
-        | literal REDIRECTION_RIGHT TOKEN TOKEN { strtok($3, " \n\t");
+        | literal REDIRECTION_RIGHT TOKEN TOKEN { strtok($3, delimiters);
                 set_cmd_target($$, $3, 0); add_cmd_arg($$, $4); }
 
-        | literal APPEND TOKEN TOKEN { strtok($3, " \n\t");
+        | literal APPEND TOKEN TOKEN { strtok($3, delimiters);
                 set_cmd_target($$, $3, 1); add_cmd_arg($$, $4); }	
 	;
 
