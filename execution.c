@@ -160,7 +160,7 @@ forked_process(int fd_source, int fd_target, command_object* cmd, char** argv)
  * @return The PID of the child process.
  */
 int
-run_command(int fd_source, int fd_target, command_object* cmd, int * return_val)
+run_command(int fd_source, int fd_target, command_object* cmd, int* return_val)
 {
 #ifdef DEBUG
         printf("Running a command (%d): ", cmd->arg_count);
@@ -213,7 +213,7 @@ run_pipeline_sequence(pipeline_sequence_object* sequence)
 	printf("Running sequence\n");
 #endif
 
-	pipeline_entry * pipeline;
+	pipeline_entry* pipeline;
 	
 	// Runs individual pipelines
 	STAILQ_FOREACH(pipeline, &sequence->pipelines, entries)

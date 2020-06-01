@@ -7,7 +7,7 @@ STAILQ_HEAD(string_head, list_node);
 typedef struct list_node literal_entry;
 struct list_node
 {
-        char * item;
+        char* item;
         STAILQ_ENTRY(list_node) entries;
 };
 
@@ -19,11 +19,11 @@ struct command
         struct string_head args;
         int arg_count;
 	int append_flag;
-	char * source;
-	char * target;
+	char* source;
+	char* target;
 };
 
-command_object *
+command_object*
 command_constructor();
 
 STAILQ_HEAD(command_head, command_list_entry);
@@ -31,7 +31,7 @@ STAILQ_HEAD(command_head, command_list_entry);
 typedef struct command_list_entry command_entry;
 struct command_list_entry
 {
-        command_object * command;
+        command_object* command;
         STAILQ_ENTRY(command_list_entry) entries;
 };
 

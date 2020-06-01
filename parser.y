@@ -15,7 +15,7 @@
 
         extern int yylex();
         extern int yylineno;
-        extern int yyerror(const char * format);
+        extern int yyerror(const char* format);
 %}
 
 %{
@@ -23,10 +23,10 @@
 %}
 
 %union{
-        char * str;
-        command_object * command;
-        pipeline_sequence_object * sequence;
-	command_pipeline_object * pipeline;
+        char*  str;
+        command_object* command;
+        pipeline_sequence_object* sequence;
+	command_pipeline_object* pipeline;
 }
 
 %token<str> TOKEN
@@ -105,7 +105,7 @@
 %%
 
 int
-main (int argc, char * argv[])
+main (int argc, char* argv[])
 {
         launcher(argc, argv);
 
@@ -115,7 +115,7 @@ main (int argc, char * argv[])
 }
 
 int
-yyerror(const char * s)
+yyerror(const char* s)
 {
     if (env_.file_run)
     {

@@ -3,9 +3,9 @@
 
 struct env
 {
-        char * actual_path;
-        char * previous_path;
-        char * prompt_text;
+        char* actual_path;
+        char* previous_path;
+        char* prompt_text;
         int return_val;
         bool file_run;
 };
