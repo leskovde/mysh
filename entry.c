@@ -10,6 +10,7 @@
 #include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <editline/readline.h>
 
 #include "entry.h"
 #include "signals.h"
