@@ -1,6 +1,6 @@
 SOURCES = signals.c entry.c utilities.c execution.c
 OBJECTS = signals.o entry.o utilities.o execution.o
-CFLAGS = -I. -Wall -ggdb3 -pedantic
+CFLAGS = -I. -Wall -ggdb3 -pedantic -lreadline
 
 mysh: parser.tab.h lex.yy.c parser.l parser.y $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) parser.tab.c lex.yy.c -lreadline
