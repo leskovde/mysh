@@ -19,7 +19,7 @@
 %}
 
 %{
-	char delimiters[] = " \t\r\n\v\f";
+	char delimiters[] = " \t\r\n";
 %}
 
 %union{
@@ -184,6 +184,11 @@ add_cmd_arg(command_object* cmd, char* arg)
 
         entry->item = strdup(arg);
 
+	if (entry->item == nullptr)
+	{
+		err(EX_OSERR, nullptr);
+	}
+
         if (STAILQ_EMPTY(&cmd->args))
         {
                 STAILQ_INSERT_HEAD(&cmd->args, entry, entries);
@@ -279,12 +284,12 @@ set_cmd_target(command_object* cmd, const char* target, int append_flag)
 
 	cmd->target = strdup(target);
 
-	cmd->append_flag = append_flag;
-
 	if (cmd->target == nullptr)
 	{
 		err(EX_OSERR, nullptr);
 	}
+
+	cmd->append_flag = append_flag;
 
 #ifdef DEBUG
         printf("Target set: %s\n", cmd->target);

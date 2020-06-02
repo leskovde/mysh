@@ -33,7 +33,15 @@ execute(char* command)
         char* buf = malloc(strlen(command) + 2);
 	assert (buf != nullptr);
 
-        sprintf(buf, "%s\n", command);
+	int prompt_length = strlen(command) + 2;
+
+        int prompt_written = snprintf(buf, prompt_length, "%s\n", command);
+
+	if (prompt_written < 0 || prompt_written >= prompt_length)
+        {
+                free(buf);
+                err(EX_OSERR, nullptr);
+        }
 
 #ifdef DEBUG
         printf("Parsing in execute\n");
@@ -63,6 +71,7 @@ execute_file(char* in)
         env_.file_run = true;
 
         FILE* f = fopen(in, "r");
+	assert(f != nullptr);
 
         yyin = f;
         yyparse();
@@ -174,13 +183,16 @@ run_command(int fd_source, int fd_target, command_object* cmd, int* return_val)
         if (argv == nullptr || return_val == nullptr)
         {
                 errno = ENOMEM;
+		free(argv);
+
                 return (-1);
         }
 
         if (find_in_custom_list(argv[0]))
         {
                 *return_val = find_and_execute(cmd->arg_count, argv);
-                free(argv);
+		free(argv);
+
                 return (0);
         }
 
@@ -189,6 +201,8 @@ run_command(int fd_source, int fd_target, command_object* cmd, int* return_val)
         if (child_pid == -1)
         {
                 fprintf(stderr, "Fork Error");
+		free(argv);
+
                 return (-1);
         }
 

@@ -7,6 +7,7 @@
 #include <err.h>
 #include <errno.h>
 #include <sysexits.h>
+#include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -20,7 +21,7 @@
 /**
  * Enters the interactive mode of the shell.
  */
-void
+static void
 await_action()
 {
         char* command;
@@ -48,7 +49,16 @@ await_action()
                 err(EX_OSERR, nullptr);
         }
 
-        sprintf(in, "%s:%s ", env_.prompt_text, env_.actual_path);
+	int prompt_length = strlen(env_.prompt_text) + PATH_MAX + 2;
+
+        int prompt_written = snprintf(in, prompt_length, "%s:%s ",
+			env_.prompt_text, env_.actual_path);
+	
+	if (prompt_written < 0 || prompt_written >= prompt_length)
+	{
+		free(in);
+		err(EX_OSERR, nullptr);
+	}
 
         while ((command = readline(in)) != nullptr)
         {
@@ -76,7 +86,15 @@ await_action()
 #ifdef DEBUG
                 printf("Printing prompt\n");
 #endif
-                sprintf(in, "%s:%s ", env_.prompt_text, env_.actual_path);
+                prompt_written = snprintf(in, prompt_length, "%s:%s ",
+				env_.prompt_text, env_.actual_path);
+
+		if (prompt_written < 0 || prompt_written >= prompt_length)
+        	{
+                	free(in);
+                	err(EX_OSERR, nullptr);
+        	}
+
         }
 
         free(in);
