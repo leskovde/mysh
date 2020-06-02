@@ -36,8 +36,6 @@
 %type<sequence> seq
 %type<pipeline> pipeline
 
-%precedence REDIRECTION_LEFT REDIRECTION_RIGHT APPEND
-
 %right TOKEN
 
 %error-verbose
