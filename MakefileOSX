@@ -2,10 +2,10 @@ OBJECTS = signals.o entry.o utilities.o execution.o
 CFLAGS = -I. -Wall -ggdb3 -pedantic
 
 mysh: parser.tab.h lex.yy.c parser.l parser.y $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) parser.tab.c lex.yy.c -lreadline
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) parser.tab.c lex.yy.c -L/usr/local/Cellar/readline/8.0.4/lib -lreadline
 
 parser.tab.h: parser.y
-	bison -d parser.y
+	/usr/local/Cellar/bison/3.5.91/bin/bison -d parser.y
 
 lex.yy.c: parser.l
 	flex parser.l
