@@ -5,5 +5,10 @@ os:
 compiler:
         - clang
         - gcc
+addons:
+        homebrew:
+                packages:
+                        - readline
+                        - bison
 script: if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then make && make test; else make -f MakefileOSX && make -f MakefileOSX test; fi
 
