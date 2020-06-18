@@ -10,5 +10,6 @@ addons:
                 packages:
                         - readline
                         - bison
+                update: true
 script: if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then make && make test; else make -f MakefileOSX && make -f MakefileOSX test; fi
 
