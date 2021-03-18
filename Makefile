@@ -11,7 +11,7 @@ lex.yy.c: parser.l
 	flex parser.l
 
 clean:
-	rm lex.yy.c parser.tab.c parser.tab.h mysh $(OBJECTS)
+	rm -f lex.yy.c parser.tab.c parser.tab.h mysh $(OBJECTS)
 
 test:
 	cd tests && ./run-tests.sh 

@@ -38,7 +38,7 @@
 
 %right TOKEN
 
-%error-verbose
+%define parse.error verbose
 
 %%
         cmdline
