@@ -6,7 +6,7 @@ mysh: parser.tab.h lex.yy.c src/parser.l src/parser.y $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) parser.tab.c lex.yy.c -L/usr/local/Cellar/readline/8.*/lib -lreadline
 
 parser.tab.h: src/parser.y
-	/usr/local/Cellar/bison/3.*/bin/bison -d parser.y
+	/usr/local/Cellar/bison/3.*/bin/bison -d src/parser.y
 
 lex.yy.c: src/parser.l
 	flex src/parser.l

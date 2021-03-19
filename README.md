@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/leskovde/mysh.svg?branch=master)](https://travis-ci.org/leskovde/mysh)
+
 # mysh
 
 A light shell for FreeBSD systems and OS X. 
