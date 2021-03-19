@@ -14,4 +14,4 @@ clean:
 	rm -f lex.yy.c parser.tab.c parser.tab.h mysh $(OBJECTS)
 
 test:
-	cd tests && ./run-tests.sh 
+	cd tests && ./run-tests.sh
