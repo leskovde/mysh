@@ -3,7 +3,7 @@ CFLAGS = -I. -Wall -ggdb3 -pedantic
 TESTS = $(shell cat tests/osx.tests)
 
 mysh: parser.tab.h lex.yy.c src/parser.l src/parser.y $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) parser.tab.c lex.yy.c -L/usr/local/Cellar/readline/8.*/lib -lreadline
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS) parser.tab.c lex.yy.c -L/usr/local/Cellar/readline/8.*/ -lreadline
 
 parser.tab.h: src/parser.y
 	/usr/local/Cellar/bison/3.*/bin/bison -d src/parser.y
