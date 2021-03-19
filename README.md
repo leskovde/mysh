@@ -6,7 +6,7 @@ A light shell for FreeBSD systems and OS X.
 
 The shell is compatible with FreeBSD, but it also runs on Ubuntu, Debian, and OS X.
 
-![](mysh.gif)
+![](img/mysh.gif)
 
 It supports built in commands such as `cd`, pipes, and redirections.
 
