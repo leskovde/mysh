@@ -3,7 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "signals.h"
+#include "lib/signals.h"
 
 /**
  * Redraws the prompt after getting interrupted when a command is running.

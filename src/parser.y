@@ -9,9 +9,9 @@
 	#include <err.h>
         #include <string.h>
 	
-	#include "structs.h"
-        #include "entry.h"
-        #include "parser_helpfile.h"
+	#include "lib/structs.h"
+        #include "lib/entry.h"
+        #include "lib/parser_helpfile.h"
 
         extern int yylex();
         extern int yylineno;

@@ -1,7 +1,7 @@
 %option nodefault noinput nounput noyywrap yylineno
 
 %{
-        #include "parser_helpfile.h"
+        #include "lib/parser_helpfile.h"
         #include "parser.tab.h"
 %}
 

@@ -11,12 +11,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "entry.h"
-#include "signals.h"
-#include "utilities.h"
-#include "execution.h"
+#include "lib/entry.h"
+#include "lib/signals.h"
+#include "lib/utilities.h"
+#include "lib/execution.h"
 #include "parser.tab.h"
-#include "lex.yy.h"
+#include "lib/lex.yy.h"
 
 /**
  * Enters the interactive mode of the shell.

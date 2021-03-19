@@ -7,7 +7,7 @@
 #include <sysexits.h>
 #include <unistd.h>
 
-#include "utilities.h"
+#include "lib/utilities.h"
 
 extern int yylex_destroy();
 

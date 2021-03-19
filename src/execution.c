@@ -9,8 +9,8 @@
 #include <fcntl.h>
 #include <sysexits.h>
 
-#include "utilities.h"
-#include "lex.yy.h"
+#include "lib/utilities.h"
+#include "lib/lex.yy.h"
 
 extern FILE* yyin;
 extern int yyparse();
